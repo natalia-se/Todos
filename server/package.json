@@ -1,5 +1,5 @@
 {
-  "name": "todo_Backend",
+  "name": "server",
   "version": "1.0.0",
   "description": "Todo API",
   "main": "index.js",

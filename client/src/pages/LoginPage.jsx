@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
   const [username, setUserName] = useState("");
@@ -11,29 +12,24 @@ const LoginPage = () => {
   function handleOnSubmit(e) {
     e.preventDefault();
 
-    // const payload = { username, password };
+    const url = "/api/auth/login";
 
-    // const url = "/api/auth/login";
+    axios
+      .post(url, {
+        username: username,
+        password: password,
+      })
+      .then((response) => {
+        console.log(response);
+        const token = response.data.token;
+        if (token) {
+          localStorage.setItem("Token", token);
+          navigate("/todos");
+        }
 
-    // fetch(url, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(payload),
-    // })
-    //   .then(
-    //     (res) => res.json()
-    //     // setResStatus(res.status);
-    //   )
-    //   .then((data) => {
-    //     // console.log("data", data.token);
-    //     const token = data.token;
-    //     if (token) {
-    //       localStorage.setItem("Backend1", token);
-    //       navigate("/");
-    //     }
-
-    //     if (!token) setDataError(data);
-    //   });
+        if (!token) setDataError(response.data);
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -56,7 +52,7 @@ const LoginPage = () => {
           <button type="submit">Login</button>
         </div>
       </form>
-      {/* {dataError && <Chip>{dataError}</Chip>} */}
+      {dataError && <span>{dataError}</span>}
     </div>
   );
 };

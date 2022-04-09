@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const RegisterPage = () => {
   const [username, setUserName] = useState("");
@@ -10,11 +11,20 @@ const RegisterPage = () => {
 
   function handleOnSubmit(e) {
     e.preventDefault();
-    // const url = "/api/auth/register";
-    // const payload = {
-    //   username,
-    //   password,
-    // };
+    const url = "/api/auth/register";
+    axios
+      .post(url, {
+        username: username,
+        password: password,
+      })
+      .then((res) => {
+        console.log(res.status);
+        setResStatus(res.status);
+        if (res.status !== 400 && res.status !== 401) {
+          navigate("/login");
+        }
+      })
+      .catch((err) => console.log(err));
     // fetch(url, {
     //   method: "POST",
     //   headers: {
@@ -52,7 +62,7 @@ const RegisterPage = () => {
         </div>
       </form>
 
-      {/* {(resStatus === 400 || resStatus === 401) && <Chip>Duplicate name</Chip>} */}
+      {(resStatus === 400 || resStatus === 401) && <span>Duplicate name</span>}
     </div>
   );
 };
