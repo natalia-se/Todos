@@ -1,22 +1,25 @@
 import React from "react";
-import AddTodo from "../components/AddTodo";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-  const handleSaveTodo = () => {
-    console.log("handleSaveTodo", handleSaveTodo);
+  const navigate = useNavigate();
+
+  const handleOnClickedLogIn = (e) => {
+    e.preventDefault();
+    navigate("/login");
+  };
+
+  const handleOnClickedRegister = (e) => {
+    e.preventDefault();
+    navigate("/register");
   };
   return (
     <main className="App">
       <h1>My Todos</h1>
-      <AddTodo saveTodo={handleSaveTodo} />
-      {/* {todos.map((todo: ITodo) => (
-        <TodoItem
-          key={todo._id}
-          updateTodo={handleUpdateTodo}
-          deleteTodo={handleDeleteTodo}
-          todo={todo}
-        />
-      ))} */}
+      <form className="Form home">
+        <button onClick={handleOnClickedLogIn}>Login</button>
+        <button onClick={handleOnClickedRegister}>Register</button>
+      </form>
     </main>
   );
 };
