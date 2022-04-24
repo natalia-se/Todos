@@ -3,7 +3,7 @@ const Todo = require("../models/Todo");
 const { requireLogin } = require("./auth");
 
 // Create todo
-router.post("/create", requireLogin, async (req, res) => {
+router.post("/todos/create", requireLogin, async (req, res) => {
   const { userId } = req.user;
   const text = req.body.text;
   const newTodo = new Todo({ userId, text });
@@ -16,7 +16,7 @@ router.post("/create", requireLogin, async (req, res) => {
 });
 
 // Get all todos
-router.get("/", requireLogin, async (req, res) => {
+router.get("/todos", requireLogin, async (req, res) => {
   const userId = req.user.userId;
   try {
     const todos = await Todo.find({ userId })
@@ -37,7 +37,7 @@ router.get("/", requireLogin, async (req, res) => {
 //   todo.completed = !todo.completed;
 //   res.json(todo);
 // });
-router.patch("/:id", requireLogin, async (req, res) => {
+router.patch("/todos/:id", requireLogin, async (req, res) => {
   const id = req.params.id;
   const { userId } = req.user;
 
