@@ -9,6 +9,7 @@ const TodosPage = () => {
   const [todoText, setTodoText] = useState(null);
   const [todoDescription, setTodoDescription] = useState(null);
   const [todoList, setTodoList] = useState(null);
+  const [isTodoCompleted, setIsTodoCompleted] = useState(false);
   const token = localStorage.getItem("Token");
 
   // const [resStatus, setResStatus] = useState(null);
@@ -58,13 +59,14 @@ const TodosPage = () => {
   };
 
   function fetchTodos() {
-    const url = "/api/todos/";
+    const url = `/api/todos/`;
 
     axios
       .get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        params: { isTodoCompleted: isTodoCompleted },
       })
       .then((res) => {
         setTodoList(res.data);
@@ -80,7 +82,7 @@ const TodosPage = () => {
 
   useEffect(() => {
     fetchTodos();
-  }, []);
+  }, [isTodoCompleted]);
 
   return (
     <main className="App">
@@ -90,6 +92,26 @@ const TodosPage = () => {
         setTodoText={setTodoText}
         setTodoDescription={setTodoDescription}
       />
+      <label className="container">
+        Active todos
+        <input
+          type="radio"
+          checked="checked"
+          name="radio"
+          onChange={(e) => setIsTodoCompleted(false)}
+        />
+        <span className="checkmark"></span>
+      </label>
+      <label className="container">
+        Completed todos
+        <input
+          type="radio"
+          name="radio"
+          onChange={(e) => setIsTodoCompleted(true)}
+        />
+        <span className="checkmark"></span>
+      </label>
+
       {todoList &&
         todoList.map((todo, index) => (
           <TodoItem

@@ -18,8 +18,10 @@ router.post("/todos/create", requireLogin, async (req, res) => {
 // Get all todos
 router.get("/todos", requireLogin, async (req, res) => {
   const userId = req.user.userId;
+  console.log(req.query);
+  const { isTodoCompleted } = req.query;
   try {
-    const todos = await Todo.find({ userId })
+    const todos = await Todo.find({ userId, isDone: isTodoCompleted })
       .sort({ createdAt: -1 })
       .populate("userId")
       .exec();
@@ -30,13 +32,6 @@ router.get("/todos", requireLogin, async (req, res) => {
   }
 });
 
-// Mark todo as completed
-// app.patch("/api/todos/:id", (req, res) => {
-//   const todo = todos.find((todo) => todo.id == req.params.id);
-//   if (!todo) return res.sendStatus(404);
-//   todo.completed = !todo.completed;
-//   res.json(todo);
-// });
 router.patch("/todos/:id", requireLogin, async (req, res) => {
   const id = req.params.id;
   const { userId } = req.user;
@@ -48,15 +43,6 @@ router.patch("/todos/:id", requireLogin, async (req, res) => {
     if (todo.userId.toString() === userId) {
       try {
         const updatedTodo = await todo.save();
-
-        //const updatedMessage = await Todo.findByIdAndUpdate(id, update)
-        // const updatedMessage = await Todo.findByIdAndUpdate(
-        //   id,
-        //   {
-        //     $set: req.body,
-        //   },
-        //   { new: true }
-        // );
         res.status(200).json(updatedTodo);
       } catch (error) {
         res.status(500).json(error);
