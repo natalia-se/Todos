@@ -40,17 +40,6 @@ router.get("/todos", requireLogin, async (req, res) => {
   const todos = await result;
 
   res.status(200).json(todos);
-
-  //   try {
-  //     const todos = await Todo.find({ userId, isDone: isTodoCompleted })
-  //       .sort({ createdAt: -1 })
-  //       .populate("userId")
-  //       .exec();
-
-  //     res.status(200).json(todos);
-  //   } catch (error) {
-  //     res.status(404).json(error);
-  //   }
 });
 
 router.patch("/todos/:id", requireLogin, async (req, res) => {
