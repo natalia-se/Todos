@@ -6,17 +6,40 @@ import AddTodo from "../components/AddTodo";
 import TodoItem from "../components/TodoItem";
 
 const TodosPage = () => {
+  const [todoText, setTodoText] = useState(null);
+  const [todoDescription, setTodoDescription] = useState(null);
   const [todoList, setTodoList] = useState(null);
+  const token = localStorage.getItem("Token");
   // const [resStatus, setResStatus] = useState(null);
   // const navigate = useNavigate();
 
-  const handleSaveTodo = () => {
-    console.log("handleSaveTodo", handleSaveTodo);
+  const handleSaveTodo = (e) => {
+    e.preventDefault();
+    const url = "/api/todos/create";
+    axios
+      .post(
+        url,
+        {
+          text: todoText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.status);
+        // setResStatus(res.status);
+        // if (res.status !== 400 && res.status !== 401) {
+        //   navigate("/login");
+        // }
+      })
+      .catch((err) => console.log(err));
   };
 
   function fetchTodos() {
     const url = "/api/todos/";
-    const token = localStorage.getItem("Token");
 
     axios
       .get(url, {
@@ -39,13 +62,16 @@ const TodosPage = () => {
 
   useEffect(() => {
     fetchTodos();
-  }, []);
-  console.log("todoList", todoList);
+  }, [handleSaveTodo]);
 
   return (
     <main className="App">
       <h1>My Todos</h1>
-      <AddTodo saveTodo={handleSaveTodo} />
+      <AddTodo
+        saveTodo={handleSaveTodo}
+        setTodoText={setTodoText}
+        setTodoDescription={setTodoDescription}
+      />
       {todoList &&
         todoList.map((todo, index) => (
           <TodoItem

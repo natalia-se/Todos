@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddTodo = () => {
+const AddTodo = ({ saveTodo, setTodoText, setTodoDescription }) => {
   return (
     <form
       className="Form"
@@ -10,7 +10,7 @@ const AddTodo = () => {
         <div>
           <label htmlFor="name">Name</label>
           <input
-            //   onChange={handleForm}
+            onChange={(e) => setTodoText(e.target.value)}
             type="text"
             id="name"
           />
@@ -18,17 +18,13 @@ const AddTodo = () => {
         <div>
           <label htmlFor="description">Description</label>
           <input
-            //   onChange={handleForm}
+            onChange={(e) => setTodoDescription(e.target.value)}
             type="text"
             id="description"
           />
         </div>
       </div>
-      <button
-      // disabled={formData === undefined ? true : false}
-      >
-        Add Todo
-      </button>
+      <button onClick={saveTodo}>Add Todo</button>
     </form>
   );
 };
