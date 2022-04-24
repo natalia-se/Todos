@@ -10,6 +10,7 @@ const TodosPage = () => {
   const [todoDescription, setTodoDescription] = useState(null);
   const [todoList, setTodoList] = useState(null);
   const token = localStorage.getItem("Token");
+
   // const [resStatus, setResStatus] = useState(null);
   // const navigate = useNavigate();
 
@@ -38,6 +39,24 @@ const TodosPage = () => {
       .catch((err) => console.log(err));
   };
 
+  const handleUpdateTodo = (id) => {
+    const url = `/api/todos/${id}`;
+    axios
+      .patch(url, null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.status);
+        // setResStatus(res.status);
+        // if (res.status !== 400 && res.status !== 401) {
+        //   navigate("/login");
+        // }
+      })
+      .catch((err) => console.log(err));
+  };
+
   function fetchTodos() {
     const url = "/api/todos/";
 
@@ -48,7 +67,6 @@ const TodosPage = () => {
         },
       })
       .then((res) => {
-        console.log("res.data.total", res.data);
         setTodoList(res.data);
         // console.log("resStatus", res.status);
         // console.log("todoList", todoList);
@@ -62,7 +80,7 @@ const TodosPage = () => {
 
   useEffect(() => {
     fetchTodos();
-  }, [handleSaveTodo]);
+  }, []);
 
   return (
     <main className="App">
@@ -76,7 +94,7 @@ const TodosPage = () => {
         todoList.map((todo, index) => (
           <TodoItem
             key={index}
-            // updateTodo={handleUpdateTodo}
+            handleUpdateTodo={handleUpdateTodo}
             // deleteTodo={handleDeleteTodo}
             todo={todo}
           />

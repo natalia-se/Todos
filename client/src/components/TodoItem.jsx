@@ -1,7 +1,13 @@
 import React from "react";
 
-const TodoItem = ({ todo }) => {
-  console.log("todo", todo);
+const TodoItem = ({ todo, handleUpdateTodo }) => {
+  const id = todo._id;
+
+  const updateTodo = (e) => {
+    e.preventDefault();
+    console.log("todo", id);
+    handleUpdateTodo(id);
+  };
   return (
     <div className="Card">
       <div className="Card--text">
@@ -11,7 +17,7 @@ const TodoItem = ({ todo }) => {
       </div>
       <div className="Card--button">
         <button
-          // onClick={() => updateTodo(todo)}
+          onClick={updateTodo}
           className={todo.isDone ? `hide-button` : "Card--button__done"}
         >
           Complete
