@@ -117,3 +117,7 @@ body {
 .home button {
   width: 40%;
 }
+
+.done {
+  text-decoration: line-through;
+}
