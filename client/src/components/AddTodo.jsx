@@ -15,14 +15,14 @@ const AddTodo = ({ saveTodo, setTodoText, setTodoDescription }) => {
             id="name"
           />
         </div>
-        <div>
+        {/* <div>
           <label htmlFor="description">Description</label>
           <input
             onChange={(e) => setTodoDescription(e.target.value)}
             type="text"
             id="description"
           />
-        </div>
+        </div> */}
       </div>
       <button onClick={saveTodo}>Add Todo</button>
     </form>
