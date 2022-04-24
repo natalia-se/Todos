@@ -69,7 +69,8 @@ body {
   align-items: center;
 }
 
-.Form input {
+.Form input,
+select {
   background: #f5f6f7;
   padding: 0.5rem 1rem;
   border: 1px solid #ff9900;
@@ -119,10 +120,6 @@ body {
   width: 40%;
 }
 
-.done {
-  text-decoration: line-through;
-}
-
 .container {
   display: block;
   position: relative;
@@ -159,7 +156,7 @@ body {
   background-color: #ccc;
 }
 
-/* When the radio button is checked, add a blue background */
+/* When the radio button is checked, add a orange background */
 .container input:checked ~ .checkmark {
   background-color: #ff9900;
 }

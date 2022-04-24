@@ -16,7 +16,7 @@ const TodoItem = ({ todo, handleUpdateTodo, handleDeleteTodo }) => {
   return (
     <div className="Card">
       <div className="Card--text">
-        <h1 className={todo.isDone ? `done` : ""}>{todo.text}</h1>
+        <h1 className={todo.isDone ? `line-through` : ""}>{todo.text}</h1>
         {/* className={checkTodo} */}
         <span>{todo.description}</span>
       </div>
