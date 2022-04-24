@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddTodo = ({ saveTodo, setTodoText, setTodoDescription }) => {
+const AddTodo = ({ saveTodo, todoText, setTodoText, setTodoDescription }) => {
   return (
     <form
       className="Form"
@@ -13,6 +13,7 @@ const AddTodo = ({ saveTodo, setTodoText, setTodoDescription }) => {
             onChange={(e) => setTodoText(e.target.value)}
             type="text"
             id="name"
+            value={todoText}
           />
         </div>
         {/* <div>

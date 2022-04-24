@@ -1,13 +1,18 @@
 import React from "react";
 
-const TodoItem = ({ todo, handleUpdateTodo }) => {
+const TodoItem = ({ todo, handleUpdateTodo, handleDeleteTodo }) => {
   const id = todo._id;
 
   const updateTodo = (e) => {
     e.preventDefault();
-    console.log("todo", id);
     handleUpdateTodo(id);
   };
+
+  const deleteTodo = (e) => {
+    e.preventDefault();
+    handleDeleteTodo(id);
+  };
+
   return (
     <div className="Card">
       <div className="Card--text">
@@ -19,10 +24,7 @@ const TodoItem = ({ todo, handleUpdateTodo }) => {
         <button onClick={updateTodo} className={"Card--button__done"}>
           {todo.isDone ? `Add` : "Complete"}
         </button>
-        <button
-          // onClick={() => deleteTodo(todo._id)}
-          className="Card--button__delete"
-        >
+        <button onClick={deleteTodo} className="Card--button__delete">
           Delete
         </button>
       </div>
