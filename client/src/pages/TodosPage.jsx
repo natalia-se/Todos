@@ -9,18 +9,23 @@ const TodosPage = () => {
   const [todoText, setTodoText] = useState("");
   const [todoDescription, setTodoDescription] = useState("");
   const [todoList, setTodoList] = useState(null);
-  const [searchList, setSearchList] = useState(null);
+  const [sort, setSort] = useState(null);
   const [isTodoCompleted, setIsTodoCompleted] = useState(false);
-  const [search, setSearch] = useState(null);
+  const [search, setSearch] = useState("");
   const token = localStorage.getItem("Token");
 
   // const [resStatus, setResStatus] = useState(null);
   // const navigate = useNavigate();
 
-  function fetchTodos() {
+  const fetchTodos = async () => {
     const url = `/api/todos/`;
-    console.log("Search", search);
-    axios
+    let sortParam = null;
+    if (sort === "Descending") {
+      sortParam = "-text";
+    } else if (sort === "Ascending") {
+      sortParam = "text";
+    }
+    await axios
       .get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -28,6 +33,7 @@ const TodosPage = () => {
         params: {
           isTodoCompleted: isTodoCompleted,
           search: search,
+          sort: sortParam,
         },
       })
       .then((res) => {
@@ -40,33 +46,18 @@ const TodosPage = () => {
         // }
       })
       .catch((err) => console.log(err));
-  }
+  };
 
-  function searchTodos(e) {
+  const searchTodos = (e) => {
     e.preventDefault();
-    const url = `/api/todos/`;
+    fetchTodos();
+  };
 
-    axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          isTodoCompleted: isTodoCompleted,
-          search: search,
-        },
-      })
-      .then((res) => {
-        setSearchList(res.data);
-        // console.log("resStatus", res.status);
-        // console.log("Search", res.data);
-        // setResStatus(res.status);
-        // if (res.status !== 400 && res.status !== 401) {
-        //   navigate("/login");
-        // }
-      })
-      .catch((err) => console.log(err));
-  }
+  const sortTodos = (e) => {
+    e.preventDefault();
+    //console.log("sort", sort);
+    fetchTodos();
+  };
 
   const handleSaveTodo = (e) => {
     e.preventDefault();
@@ -124,11 +115,9 @@ const TodosPage = () => {
     await fetchTodos();
   };
 
-  useEffect((e) => {
-    fetchTodos(e);
-  }, []);
-
-  const list = searchList ? searchList : todoList;
+  useEffect(() => {
+    fetchTodos();
+  }, [isTodoCompleted]);
 
   return (
     <main className="App">
@@ -165,6 +154,7 @@ const TodosPage = () => {
             type="text"
             placeholder="Search.."
             name="search"
+            value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
           <button type="submit" onClick={searchTodos}>
@@ -173,8 +163,21 @@ const TodosPage = () => {
         </form>
       </div>
 
-      {list &&
-        list.map((todo, index) => (
+      <form className="Form">
+        <label htmlFor="sort">Sort by:</label>
+        <select name="sort" id="sort" onChange={(e) => setSort(e.target.value)}>
+          <option value="Last">Last</option>
+          <option value="Descending">Descending</option>
+          <option value="Ascending">Ascending</option>
+        </select>
+
+        <button type="submit" onClick={sortTodos}>
+          Sort
+        </button>
+      </form>
+
+      {todoList &&
+        todoList.map((todo, index) => (
           <TodoItem
             key={index}
             handleUpdateTodo={handleUpdateTodo}

@@ -18,7 +18,7 @@ router.post("/todos/create", requireLogin, async (req, res) => {
 // Get all todos
 router.get("/todos", requireLogin, async (req, res) => {
   const userId = req.user.userId;
-  const { isTodoCompleted, search, sort, select: fields } = req.query;
+  const { isTodoCompleted, search, sort } = req.query;
   const mongoQuery = {};
 
   mongoQuery.userId = userId;
@@ -35,10 +35,6 @@ router.get("/todos", requireLogin, async (req, res) => {
     result.sort(sortList);
   } else {
     result.sort({ createdAt: -1 });
-  }
-  if (fields) {
-    const selectedFields = fields.split(",").join(" ");
-    result.select(selectedFields);
   }
 
   const todos = await result;
