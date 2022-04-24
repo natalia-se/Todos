@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import AddTodo from "../components/AddTodo";
@@ -15,7 +15,7 @@ const TodosPage = () => {
   const token = localStorage.getItem("Token");
 
   // const [resStatus, setResStatus] = useState(null);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const fetchTodos = async () => {
     const url = `/api/todos/`;
@@ -115,6 +115,11 @@ const TodosPage = () => {
     await fetchTodos();
   };
 
+  const logOut = () => {
+    localStorage.removeItem("Token");
+    navigate("/login");
+  };
+
   useEffect(() => {
     fetchTodos();
   }, [isTodoCompleted]);
@@ -122,6 +127,11 @@ const TodosPage = () => {
   return (
     <main className="App">
       <h1>My Todos</h1>
+      <form className="Form">
+        <button type="submit" onClick={logOut}>
+          LogOut
+        </button>
+      </form>
       <AddTodo
         saveTodo={handleSaveTodo}
         todoText={todoText}
