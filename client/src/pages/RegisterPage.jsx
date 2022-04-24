@@ -25,21 +25,6 @@ const RegisterPage = () => {
         }
       })
       .catch((err) => console.log(err));
-    // fetch(url, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(payload),
-    // }).then((res) => {
-    //   setResStatus(res.status);
-    //   if (res.status !== 400 && res.status !== 401) {
-    //     navigate("/login");
-    //   }
-    // });
-    // .then((data) => {
-    //   console.log(data);
-    // });
   }
   return (
     <div className="App">

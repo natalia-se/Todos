@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("Token");
+
+  useEffect(() => {
+    if (token) navigate("/todos");
+  }, [token, navigate]);
 
   const handleOnClickedLogIn = (e) => {
     e.preventDefault();
