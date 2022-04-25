@@ -45,7 +45,12 @@ const TodosPage = () => {
         //   navigate("/login");
         // }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status) {
+          navigate("/login");
+        }
+      });
   };
 
   const searchTodos = (e) => {
@@ -59,10 +64,10 @@ const TodosPage = () => {
     fetchTodos();
   };
 
-  const handleSaveTodo = (e) => {
+  const handleSaveTodo = async (e) => {
     e.preventDefault();
     const url = "/api/todos/create";
-    axios
+    await axios
       .post(
         url,
         {

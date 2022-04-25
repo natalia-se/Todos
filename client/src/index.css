@@ -182,3 +182,9 @@ select {
   border-radius: 50%;
   background: white;
 }
+
+.red {
+  color: #f72323;
+  display: table;
+  margin: 0 auto;
+}

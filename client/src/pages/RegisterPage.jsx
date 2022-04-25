@@ -24,7 +24,12 @@ const RegisterPage = () => {
           navigate("/login");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        if (err.response) {
+          setResStatus(err.response.status);
+        }
+      });
   }
   return (
     <div className="App">
@@ -47,7 +52,9 @@ const RegisterPage = () => {
         </div>
       </form>
 
-      {(resStatus === 400 || resStatus === 401) && <span>Duplicate name</span>}
+      {(resStatus === 400 || resStatus === 401) && (
+        <span className="red">Duplicate name</span>
+      )}
     </div>
   );
 };

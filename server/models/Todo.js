@@ -10,7 +10,7 @@ const todoSchema = new mongoose.Schema(
       ref: "User",
     },
   },
-  { timestamps: true }
+  { timestamps: true, collation: { locale: "en_US", strength: 1 } }
 );
 
 module.exports = mongoose.model("Todo", todoSchema);

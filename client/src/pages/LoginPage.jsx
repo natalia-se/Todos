@@ -29,7 +29,12 @@ const LoginPage = () => {
 
         if (!token) setDataError(response.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        if (err.response) {
+          setDataError(err.response.data);
+        }
+      });
   }
 
   return (
@@ -52,7 +57,7 @@ const LoginPage = () => {
           <button type="submit">Login</button>
         </div>
       </form>
-      {dataError && <span>{dataError}</span>}
+      {dataError && <span className="red">{dataError}</span>}
     </div>
   );
 };
